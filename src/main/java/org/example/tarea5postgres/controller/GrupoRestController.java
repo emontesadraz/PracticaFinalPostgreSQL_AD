@@ -1,7 +1,7 @@
 package org.example.tarea5postgres.controller;
 
-import org.example.tarea5postgres.model.dto.GrupoDTO;
 
+import org.example.tarea5postgres.model.entity.Grupo;
 import org.example.tarea5postgres.service.GrupoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +18,9 @@ public class GrupoRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addNewGrupoPostgreSQLController(@RequestBody GrupoDTO grupoDTO) {
+    public ResponseEntity<String> addNewGrupoPostgreSQLController(@RequestBody Grupo grupo) {
         try{
-            grupoService.addGrupoService(grupoDTO);
+            grupoService.addGrupoService(grupo);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -41,9 +41,9 @@ public class GrupoRestController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<String> createGrupoLlmadaPostgreSQLController(@RequestBody GrupoDTO grupoDTO) {
+    public ResponseEntity<String> createGrupoLlmadaPostgreSQLController(@RequestBody Grupo grupo) {
         try{
-            grupoService.createGrupoService(grupoDTO);
+            grupoService.createGrupoService(grupo);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

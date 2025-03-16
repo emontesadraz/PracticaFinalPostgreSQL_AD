@@ -1,6 +1,6 @@
 package org.example.tarea5postgres.controller;
 
-import org.example.tarea5postgres.model.dto.AlbumDTO;
+import org.example.tarea5postgres.model.entity.Album;
 import org.example.tarea5postgres.service.AlbumService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,9 @@ public class AlbumRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addNewAlbumPostgreSQLController(@RequestBody AlbumDTO albumDTO) {
+    public ResponseEntity<String> addNewAlbumPostgreSQLController(@RequestBody Album album) {
         try {
-            albumService.addAlbumService(albumDTO);
+            albumService.addAlbumService(album);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -40,9 +40,9 @@ public class AlbumRestController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<String> createNewAlbumLlamadaPostgreSQLController(@RequestBody AlbumDTO albumDTO) {
+    public ResponseEntity<String> createNewAlbumLlamadaPostgreSQLController(@RequestBody Album album) {
         try {
-            albumService.createAlbumService(albumDTO);
+            albumService.createAlbumService(album);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -52,7 +52,7 @@ public class AlbumRestController {
     /**
      * Metodo para borrar un album en postgreSQL y mongoService
      *
-     * @param id el id del album a borrar en ambas bases de datos
+     * @param id el ID del album a borrar en ambas bases de datos
      * @return un mensaje indicando si se borró o no
      */
     @DeleteMapping("/borrar/{id}")

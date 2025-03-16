@@ -1,14 +1,9 @@
 package org.example.tarea5postgres.service;
 
 import org.example.tarea5postgres.comunication.ServicioMongo;
-import org.example.tarea5postgres.exceptions.IdException;
-import org.example.tarea5postgres.model.dto.AlbumAuxMongoServiceDTO;
-import org.example.tarea5postgres.model.dto.AlbumDTO;
 import org.example.tarea5postgres.model.entity.Album;
-import org.example.tarea5postgres.model.entity.Grupo;
 import org.example.tarea5postgres.repositories.AlbumRepository;
 import org.example.tarea5postgres.repositories.GrupoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,12 +21,9 @@ public class AlbumService {
 
     /**
      * Metodo para crear un album
-     * @param albumDTO
+     * @param album
      */
-    public void addAlbumService(AlbumDTO albumDTO) {
-        Grupo grupo = getGrupo(albumDTO);
-        Album album = new Album(grupo, albumDTO.getTitulo(),
-                albumDTO.getDataLanzamento(), albumDTO.getPuntuacion());
+    public void addAlbumService(Album album) {
         albumRepository.save(album);
     }
 
@@ -50,21 +42,12 @@ public class AlbumService {
 
     /**
      * Metodo para crear un album y que se guarde en MongoDB
-     * @param albumDTO
+     * @param album
      */
-    public void createAlbumService(AlbumDTO albumDTO) {
-        Grupo grupo = getGrupo(albumDTO);
-        Album album = new Album(grupo, albumDTO.getTitulo(),
-                albumDTO.getDataLanzamento(), albumDTO.getPuntuacion());
+    public void createAlbumService(Album album) {
         albumRepository.save(album);
 
-        Integer albuID = album.getId();
-        Integer grupoID = grupo.getId();
-        AlbumAuxMongoServiceDTO albumAuxMongoServiceDTO = new AlbumAuxMongoServiceDTO(
-                albuID, grupoID, albumDTO.getTitulo(), albumDTO.getDataLanzamento(),
-                albumDTO.getPuntuacion()
-        );
-        servicioMongo.crearAlbum(albumAuxMongoServiceDTO);
+        servicioMongo.crearAlbum(album);
     }
 
     /**
@@ -79,18 +62,5 @@ public class AlbumService {
         albumRepository.deleteById(id);
         servicioMongo.borrarAlbumLlamada(id);
         return true;
-    }
-
-    /**
-     * Metodo para obtener un grupo y saber si existe por su id o no
-     * @param albumDTO la DTO para buscar al grupo
-     * @return el objeto Grupo
-     */
-    private Grupo getGrupo(AlbumDTO albumDTO) {
-        Grupo grupo = grupoRepository.findByid(albumDTO.getGrupoID());
-        if(grupo == null) {
-            throw new IdException("El grupo con el id " + albumDTO.getGrupoID() + " no existe");
-        }
-        return grupo;
     }
 }

@@ -1,7 +1,7 @@
 package org.example.tarea5postgres.comunication;
 
-import org.example.tarea5postgres.model.dto.AlbumAuxMongoServiceDTO;
-import org.example.tarea5postgres.model.dto.GrupoAuxMongoServiceDTO;
+import org.example.tarea5postgres.model.entity.Album;
+import org.example.tarea5postgres.model.entity.Grupo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +17,10 @@ public interface ServicioMongo {
 
     /**
      * Metodo para comunicarse con mongoService y crear un grupo
-     * @param grupoAuxMongoServiceDTO el grupo a crear
+     * @param grupo el grupo a crear
      */
     @PostMapping("/grupo/crear") // Esta anotación se utiliza para mapear solicitudes HTTP POST a métodos de controlador y se aplica a un método de la interfaz
-    void crearGrupoLlamada(@RequestBody GrupoAuxMongoServiceDTO grupoAuxMongoServiceDTO); // Método que recibe un objeto de tipo GrupoAuxMongoServiceDTO y no devuelve nada
+    void crearGrupoLlamada(@RequestBody Grupo grupo); // Método que recibe un objeto de tipo GrupoAuxMongoServiceDTO y no devuelve nada
 
     /**
      * Metodo para comunicarse con mongoService y borrar un grupo por su id
@@ -31,10 +31,10 @@ public interface ServicioMongo {
 
     /**
      * Metodo para crear un album llamando a mongoService
-     * @param albumAuxMongoServiceDTO
+     * @param album
      */
     @PostMapping("/album/crear") // Esta anotación se utiliza para mapear solicitudes HTTP POST a métodos de controlador y se aplica a un método de la interfaz
-    void crearAlbum(@RequestBody AlbumAuxMongoServiceDTO albumAuxMongoServiceDTO); // Método que recibe un objeto de tipo GrupoAuxMongoServiceDTO y no devuelve nada
+    void crearAlbum(@RequestBody Album album); // Método que recibe un objeto de tipo GrupoAuxMongoServiceDTO y no devuelve nada
 
     /**
      * Metodo para comunicarse con mongoService y borrar un album por su id

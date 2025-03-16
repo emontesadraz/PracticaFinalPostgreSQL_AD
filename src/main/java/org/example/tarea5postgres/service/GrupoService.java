@@ -1,6 +1,7 @@
 package org.example.tarea5postgres.service;
 
 import org.example.tarea5postgres.comunication.ServicioMongo;
+import org.example.tarea5postgres.model.DTO.GrupoDTO;
 import org.example.tarea5postgres.model.entity.Grupo;
 import org.example.tarea5postgres.repositories.GrupoRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,11 @@ public class GrupoService {
 
     public void createGrupoService(Grupo grupo) {
         grupoRepository.save(grupo);
-        servicioMongo.crearGrupoLlamada(grupo);
+
+        Integer idGenerado = grupo.getId();
+        GrupoDTO grupoDTO = new GrupoDTO(idGenerado, grupo.getNome(),
+                grupo.getXenero(), grupo.getDataFormacion());
+        servicioMongo.crearGrupoLlamada(grupoDTO);
     }
 
     public boolean borrarGrupoByIdService(Integer id) {

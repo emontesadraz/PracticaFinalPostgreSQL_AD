@@ -1,5 +1,6 @@
 package org.example.tarea5postgres.controller;
 
+import org.example.tarea5postgres.model.DTO.AlbumDTO;
 import org.example.tarea5postgres.model.entity.Album;
 import org.example.tarea5postgres.service.AlbumService;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +41,9 @@ public class AlbumRestController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<String> createNewAlbumLlamadaPostgreSQLController(@RequestBody Album album) {
+    public ResponseEntity<String> createNewAlbumLlamadaPostgreSQLController(@RequestBody AlbumDTO albumDTO) {
         try {
-            albumService.createAlbumService(album);
+            albumService.createAlbumService(albumDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

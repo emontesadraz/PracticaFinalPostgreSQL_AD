@@ -1,7 +1,11 @@
 package org.example.tarea5postgres.service;
 
 import org.example.tarea5postgres.comunication.ServicioMongo;
+import org.example.tarea5postgres.exceptions.IdException;
+import org.example.tarea5postgres.model.DTO.AlbumAuxDTO;
+import org.example.tarea5postgres.model.DTO.AlbumDTO;
 import org.example.tarea5postgres.model.entity.Album;
+import org.example.tarea5postgres.model.entity.Grupo;
 import org.example.tarea5postgres.repositories.AlbumRepository;
 import org.example.tarea5postgres.repositories.GrupoRepository;
 import org.springframework.stereotype.Service;
@@ -42,12 +46,21 @@ public class AlbumService {
 
     /**
      * Metodo para crear un album y que se guarde en MongoDB
-     * @param album
+     * @param albumDTO
      */
-    public void createAlbumService(Album album) {
+    public void createAlbumService(AlbumDTO albumDTO) {
+        Grupo grupo = getGrupo(albumDTO);
+        Album album = new Album(grupo, albumDTO.getTitulo(),
+                albumDTO.getDataLanzamento(), albumDTO.getPuntuacion());
         albumRepository.save(album);
 
-        servicioMongo.crearAlbum(album);
+        Integer albumID = album.getId();
+        Integer grupoID = grupo.getId();
+        AlbumAuxDTO albumAuxDTO = new AlbumAuxDTO(
+                albumID, grupoID, albumDTO.getTitulo(), albumDTO.getDataLanzamento(),
+                albumDTO.getPuntuacion()
+        );
+        servicioMongo.crearAlbum(albumAuxDTO);
     }
 
     /**
@@ -62,5 +75,18 @@ public class AlbumService {
         albumRepository.deleteById(id);
         servicioMongo.borrarAlbumLlamada(id);
         return true;
+    }
+
+    /**
+     * Metodo para obtener un grupo y saber si existe por su id o no
+     * @param albumDTO la DTO para buscar al grupo
+     * @return el objeto Grupo
+     */
+    private Grupo getGrupo(AlbumDTO albumDTO) {
+        Grupo grupo = grupoRepository.findByid(albumDTO.getGrupoID());
+        if(grupo == null) {
+            throw new IdException("El grupo con el id " + albumDTO.getGrupoID() + " no existe");
+        }
+        return grupo;
     }
 }

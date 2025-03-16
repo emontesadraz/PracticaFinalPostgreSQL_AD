@@ -1,5 +1,6 @@
 package org.example.tarea5postgres.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -30,6 +31,7 @@ public class Grupo {
     private String xenero;
 
     @Column(name = "data_formacion")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataFormacion;
 
     //albumes del grupo

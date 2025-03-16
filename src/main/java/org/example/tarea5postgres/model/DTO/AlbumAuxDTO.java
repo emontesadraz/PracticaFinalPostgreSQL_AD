@@ -1,6 +1,7 @@
 package org.example.tarea5postgres.model.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public class AlbumAuxDTO {
     private Integer id;
     private Integer grupoID;
     private String titulo;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataLanzamento;
     private BigDecimal puntuacion;
 
